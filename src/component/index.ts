@@ -1,3 +1,2 @@
-export type { IHelloWorld } from "./HelloWorld"
-export { HelloWorld } from "./HelloWorld"
-import "./style.css"
+export type { INavItem, IVerticalNav } from "./VerticalNav"
+export { VerticalNav } from "./VerticalNav"
