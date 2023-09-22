@@ -1,7 +1,7 @@
 {
   "name": "gta-vertical-nav",
   "private": false,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "repository": {
     "type": "git",
@@ -69,8 +69,14 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/vertical-nav.es.js",
-      "require": "./dist/vertical-nav.umd.js"
+      "import": {
+        "default": "./dist/vertical-nav.es.js",
+        "types": "./dist/index.d.ts"
+      },
+      "require": {
+        "default": "./dist/vertical-nav.umd.js",
+        "types": "./dist/index.d.ts"
+      }
     },
     "./dist/style.css": "./dist/style.css"
   },
