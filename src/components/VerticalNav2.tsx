@@ -1,6 +1,6 @@
 import * as NavigationMenu from "@radix-ui/react-navigation-menu"
 
-export default function VerticalNav2() {
+export function VerticalNav2() {
   return (
     <NavigationMenu.Root orientation="vertical">
       <NavigationMenu.List>

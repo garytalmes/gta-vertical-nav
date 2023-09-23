@@ -1,5 +1,3 @@
-import "./VerticalNav.css"
-
 export interface INavItem {
   id: string | number
   label: string

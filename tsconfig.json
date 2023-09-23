@@ -2,11 +2,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "vertical-nav": [ "src/component/index.ts" ]
+      "vertical-nav": [ "src/components/verticalnav/index.ts" ]
     },
     "typeRoots": [
       "node_modules/@types",
-      "src/component/index.d.ts"
+      "src/components/index.d.ts"
     ],
     "target": "ESNext",
     "useDefineForClassFields": true,
