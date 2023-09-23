@@ -1,5 +1,3 @@
-
-
 #vertical-nav-list {
   list-style-type: none;
   margin: 0;
@@ -17,7 +15,7 @@
   flex-direction: row;
   justify-content: start;
   align-items: start;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 .vertical-nav-icon {
