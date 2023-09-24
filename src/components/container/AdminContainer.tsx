@@ -1,71 +1,45 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { Sidebar, Topbar, useAdmin } from "../"
-
-/*
-  If AdminContainer is used then general config settings must be passed into it; 
-  individual components can either get their settings from context, or from having 
-  them passed in as props.
-
-  If AdminContainer is not used, then all components are standalones, and all settings 
-  must be passed in as props.
-
-
-*/
+import { Main, ResizeButton, Sidebar, SidebarNav, Title, Topbar, useAdmin } from "../"
 
 export interface IGeneralConfig {
-  viewState: string
-  allowReduced: boolean
-  allowCollapsed: boolean
-  allowDarkMode: boolean
-  scheme?: string
+  size?: string
+  viewState?: string
+  setViewState?: any
+  className?: string
   children?: React.ReactNode
 }
 
-export const withCtx = (WrappedComponent: any, element: string) => (props: any) => {
-  const { settings }: any = useAdminCtx()
+export const withCtx = (WrappedComponent: any) => (props: any) => {
+  const { size, viewState, setViewState }: any = useAdminCtx()
   const elemSettings: any = {
-    settings: settings[element],
-    viewState: settings.viewState,
-    allowReduced: settings.allowReduced,
-    allowCollapsed: settings.allowCollapsed,
-    scheme: settings.scheme,
+    size,
+    viewState,
+    setViewState,
   }
-  return <WrappedComponent {...props} settings={elemSettings} />
+  return <WrappedComponent {...props} {...elemSettings} />
 }
 
 const AdminContext = createContext({})
 export const useAdminCtx = () => useContext(AdminContext)
 
-export const AdminSidebar = withCtx(Sidebar, "sidebar")
-export const AdminTopbar = withCtx(Topbar, "topbar")
+export const AdminMain = withCtx(Main)
+export const AdminSidebar = withCtx(Sidebar)
+export const AdminSidebarNav = withCtx(SidebarNav)
+export const AdminTopbar = withCtx(Topbar)
+export const AdminResize = withCtx(ResizeButton)
+export const AdminTitle = withCtx(Title)
 
-export function AdminContainer({
-  viewState = "expanded",
-  allowReduced = true,
-  allowCollapsed = true,
-  allowDarkMode = true,
-  scheme = "",
-  children,
-}: IGeneralConfig) {
+export function AdminContainer({ size = "md", children }: IGeneralConfig) {
   const { breakpoint }: any = useAdmin()
-  const [settings, setSettings] = useState<any>(null)
-
-  useEffect(() => {
-    if (!settings) {
-      setSettings({
-        viewState,
-        allowReduced,
-        allowCollapsed,
-        allowDarkMode,
-        scheme,
-      })
-    }
-  }, [viewState, allowReduced, allowCollapsed, allowDarkMode, scheme])
+  const [viewState, setViewState] = useState<string>("expanded")
 
   useEffect(() => {
     console.log(breakpoint)
   }, [breakpoint])
 
-  if (!breakpoint.length) return <></>
-  return <AdminContext.Provider value={{ settings, setSettings }}>{children}</AdminContext.Provider>
+  return (
+    <AdminContext.Provider value={{ size, viewState, setViewState }}>
+      {children}
+    </AdminContext.Provider>
+  )
 }

@@ -1,37 +1,33 @@
+import { useEffect, useState } from "react"
 import { IGeneralConfig, useAdmin } from "../"
 
 export interface ISidebarConfig extends IGeneralConfig {
-  expanded?: string | number
-  reduced?: string | number
-  offsetTop?: string | number
   children?: React.ReactNode
 }
 
 export function Sidebar({
   viewState = "expanded",
-  allowReduced = true,
-  allowCollapsed = true,
-  allowDarkMode = true,
-  expanded = "12rem",
-  reduced = "4rem",
-  offsetTop = "2.5rem",
+  size = "md",
+  setViewState = () => {},
+  className = "",
   children,
   ...rest
 }: ISidebarConfig) {
-  const { breakpoint }: any = useAdmin()
+  const { breakpoint, sizingClasses, mergeClasses }: any = useAdmin()
+  const [finalClasses, setFinalClasses] = useState<string>("")
+
+  function prepClasses() {
+    const base: string = "box-border fixed h-full flex flex-column justify-start items-start"
+    const defaults = mergeClasses(base, sizingClasses(size, "sidebar", viewState))
+    setFinalClasses(mergeClasses(defaults, className))
+  }
+
+  useEffect(() => {
+    prepClasses()
+  }, [viewState])
 
   return (
-    <div
-      style={{
-        display: breakpoint === "base" ? "none" : "block",
-        position: "fixed",
-        top: offsetTop || 0,
-        left: 0,
-        height: "100%",
-        width: viewState === "expanded" ? expanded : viewState === "reduced" ? reduced : 0,
-      }}
-      {...rest}
-    >
+    <div className={finalClasses} {...rest}>
       {children}
     </div>
   )
